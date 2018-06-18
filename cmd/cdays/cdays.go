@@ -3,20 +3,23 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
-	"github.com/gorilla/mux"
+	"github.com/cniweb/cdays/internal/routing"
+	"github.com/cniweb/cdays/internal/version"
 )
 
 func main() {
-	log.Print("The application is starting...")
+	log.Printf(
+		"The application is starting, version is %s, build time is %s, commit is %v...",
+		version.Release, version.BuildTime, version.Commit,
+	)
 
-	r := mux.NewRouter()
-	r.HandleFunc("/home", rootHandler())
-	log.Fatal(http.ListenAndServe(":8000", r))
-}
-
-func rootHandler() func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello!"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("The port wasn't set")
 	}
+
+	r := routing.NewBLRouter()
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }
