@@ -5,26 +5,24 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/rumyantseva/cdays/internal/routing"
+	"github.com/cniweb/cdays/internal/routing"
 )
 
-func TestNewBLRouter(t *testing.T) {
-	r := routing.NewBLRouter()
-	srv := httptest.NewServer(r)
+func TestNewBLRouter(t * testing.T) {
+	r: = routing.NewBLRouter()
+	srv: = httptest.NewServer(r)
 	defer srv.Close()
 
-	testCases := []struct {
+	testCases: = []struct {
 		route              string
 		expectedStatusCode int
-	}{
-		{"/home", http.StatusOK},
-		{"/", http.StatusNotFound},
+	} { {"/home", http.StatusOK},  {"/", http.StatusNotFound}, 
 		// ...
 		// ...
 	}
 
-	for _, c := range testCases {
-		resp, err := http.Get(srv.URL + c.route)
+	for _, c: = range testCases {
+		resp, err: = http.Get(srv.URL + c.route)
 		if err != nil {
 			t.Fatal(err)
 		}
